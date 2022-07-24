@@ -1,7 +1,7 @@
 package cavalier.dev.plugins
 
+import cavalier.dev.persistence.dao.GameService
 import cavalier.dev.routes.gameRouting
-import cavalier.dev.services.GameService
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 

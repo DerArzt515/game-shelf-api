@@ -1,7 +1,8 @@
-val ktor_version = 2.0.3
-val kotlin_version = 1.7.10
-val logback_version = 1.2.9
-val kotlin.code.style = official
+val ktor_version = "2.0.3"
+val kotlin_version = "1.7.10"
+val logback_version = "1.2.9"
+val exposed_version = "0.36.2"
+val h2_version = "1.4.200"
 
 
 plugins {
@@ -37,6 +38,10 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("dev.cavalier:game-shelf-model:development")
+    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
+    implementation("org.xerial:sqlite-jdbc:3.30.1")
     testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
