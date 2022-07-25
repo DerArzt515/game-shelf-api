@@ -1,2 +1,22 @@
-###
-GET http://localhost:8080/game/1
+### Get all
+GET http://localhost:8080/game
+
+### create game
+POST http://localhost:8080/game
+Content-Type: application/json
+
+{
+  "id": null,
+  "title": "Spirit Island",
+  "playerCount": {
+    "min": 2,
+    "max": 4
+  },
+  "playTime": {
+    "min": 15,
+    "max": 30
+  },
+  "publishers": ["Mike and the boys"],
+  "designers": []
+}
+

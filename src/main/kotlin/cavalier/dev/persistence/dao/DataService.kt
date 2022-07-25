@@ -8,11 +8,12 @@ interface DataService<T> {
     suspend fun getAll(): List<T>
     suspend fun getBy(id: Int): T?
     suspend fun addNew(record: T): T?
-    suspend fun update(id: Int, record: T): Boolean
+    suspend fun update(record: T): Boolean
     suspend fun delete(id: Int): Boolean
 }
 
 private val game = Game(
+    id = 1,
     title = "Uno",
     playerCount = MinMax(
         min = 2,
@@ -26,10 +27,10 @@ private val game = Game(
     designers = listOf("Someone")
 )
 
-val gameService: GameService = GameService().apply {
-    runBlocking {
-        if (getAll().isEmpty()) {
-            addNew(game)
-        }
-    }
-}
+//val gameService: GameService = GameService().apply {
+//    runBlocking {
+//        if (getAll().isEmpty()) {
+//            addNew(game)
+//        }
+//    }
+//}

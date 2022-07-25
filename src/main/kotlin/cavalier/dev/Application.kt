@@ -1,7 +1,7 @@
 package cavalier.dev
 
 import cavalier.dev.persistence.dao.DatabaseFactory
-import cavalier.dev.persistence.dao.gameService
+import cavalier.dev.persistence.dao.GameService
 import cavalier.dev.plugins.configureRouting
 import cavalier.dev.plugins.configureSerialization
 import io.ktor.server.engine.*
@@ -14,7 +14,8 @@ fun main() {
         host = "0.0.0.0",
         watchPaths = listOf("classes")
     ) {
-        DatabaseFactory.init()
+        val db = DatabaseFactory.init()
+        val gameService = GameService(db)
         configureSerialization()
         configureRouting(gameService)
     }.start(wait = true)

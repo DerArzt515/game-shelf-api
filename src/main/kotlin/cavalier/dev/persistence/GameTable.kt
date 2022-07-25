@@ -1,28 +1,66 @@
 package cavalier.dev.persistence
 
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.Table
+import Game
+import MinMax
+import org.ktorm.database.Database
+import org.ktorm.entity.Entity
+import org.ktorm.entity.sequenceOf
+import org.ktorm.schema.Table
+import org.ktorm.schema.int
+import org.ktorm.schema.varchar
 
+interface GameRecord : Entity<GameRecord> {
+    companion object : Entity.Factory<GameRecord>()
 
-object Games : Table() {
-    val id: Column<Int> = integer("id").autoIncrement()
-    val title: Column<String> = varchar("title", 256)
-    val minPlayerCount: Column<Int> = integer("minPlayerCount")
-    val maxPlayerCount: Column<Int> = integer("maxPlayerCount")
-    val minPlayTime: Column<Int> = integer("minPlayTime")
-    val maxPlayTime: Column<Int> = integer("maxPlayTime")
+    val id: Int
+    var title: String
+    var minPlayerCount: Int
+    var maxPlayerCount: Int
+    var minPlayTime: Int
+    var maxPlayTime: Int
 
-    override val primaryKey = PrimaryKey(id, name = "gameId")
+    fun convert() = Game(
+        id = this.id,
+        title = this.title,
+        playerCount = MinMax(this.minPlayerCount, this.maxPlayerCount),
+        playTime = MinMax(this.minPlayTime, this.maxPlayTime),
+        publishers = listOf(),
+        designers = listOf()
+    )
 }
 
-object Publishers : Table() {
-    val id: Column<Int> = integer("id").autoIncrement()
-    val name: Column<String> = varchar("name", 256)
+object GameRecords : Table<GameRecord>("games") {
+    val id = int("id").primaryKey().bindTo { it.id }
+    val title = varchar("title").bindTo { it.title }
+    val minPlayerCount = int("minPlayerCount").bindTo { it.minPlayerCount }
+    val maxPlayerCount = int("maxPlayerCount").bindTo { it.maxPlayerCount }
+    val minPlayTime = int("minPlayTime").bindTo { it.minPlayTime }
+    val maxPlayTime = int("maxPlayTime").bindTo { it.maxPlayTime }
 
-    override val primaryKey = PrimaryKey(id, name = "publisherId")
 }
 
-object GamePublishers : Table() {
-    var game = reference("game", Games).primaryKey(0)
-    var publisher = reference("publisher", Publishers)
-}
+val Database.gameRecords get() = this.sequenceOf(GameRecords)
+
+//interface Publisher : Entity<Publisher> {
+//    companion object : Entity.Factory<Publisher>()
+//
+//    val id: Int
+//    val name: String
+//}
+//
+//object Publishers : Table<Publisher>("publishers") {
+//    val id = int("id").primaryKey().bindTo { it.id }
+//    val name = varchar("name").bindTo { it.name }
+//}
+//
+//interface GameToPublisher : Entity<GameToPublisher> {
+////    companion object : Entity.Factory<GameToPublisher>()
+//
+//    val game: Game
+//    val publisher: Publisher
+//}
+//
+//object GamesToPublishers : Table<GameToPublisher>("gamesToPublishers") {
+//    val gameId = int("gameId").references(Games) { it.game }
+//    val publisher = int("publisherId").references(Publishers) { it.publisher }
+//}
