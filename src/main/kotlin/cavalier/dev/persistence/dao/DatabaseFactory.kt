@@ -1,14 +1,18 @@
 package cavalier.dev.persistence.dao
 
-import kotlinx.coroutines.Dispatchers
 import org.ktorm.database.Database
-import org.ktorm.support.sqlite.SQLiteDialect
+
+typealias Password = String
+typealias Username = String
+typealias Url = String
 
 object DatabaseFactory {
-    fun init(): Database {
-        val driverClassName = "org.sqlite.JDBC"
-        val jdbcUrl = "jdbc:sqlite:./data/data.db"
-        val db = Database.connect(jdbcUrl, driverClassName, dialect = SQLiteDialect())
+    fun init(jdbcUrl: String, username: Username, password: Password): Database {
+        val db = Database.connect(
+                jdbcUrl,
+                user = username,
+                password = password
+        )
         return db
     }
 }

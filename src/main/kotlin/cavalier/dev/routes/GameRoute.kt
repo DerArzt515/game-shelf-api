@@ -1,6 +1,7 @@
 package cavalier.dev.routes
 
 import Game
+import GameCreationRequest
 import cavalier.dev.persistence.dao.GameService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -25,7 +26,7 @@ fun Route.gameRouting(gameService: GameService) {
             call.respond(game)
         }
         post{
-            val game = call.receive<Game>()
+            val game = call.receive<GameCreationRequest>()
             val savedGame = gameService.addNew(game)?: return@post call.respondText(
                 "error saving game",
                 status = HttpStatusCode.InternalServerError

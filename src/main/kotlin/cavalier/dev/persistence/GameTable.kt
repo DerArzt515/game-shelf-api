@@ -5,12 +5,10 @@ import MinMax
 import org.ktorm.database.Database
 import org.ktorm.entity.Entity
 import org.ktorm.entity.sequenceOf
-import org.ktorm.schema.Table
-import org.ktorm.schema.int
-import org.ktorm.schema.varchar
+import org.ktorm.schema.*
 
-interface GameRecord : Entity<GameRecord> {
-    companion object : Entity.Factory<GameRecord>()
+interface GameDbo : Entity<GameDbo> {
+    companion object : Entity.Factory<GameDbo>()
 
     val id: Int
     var title: String
@@ -29,38 +27,38 @@ interface GameRecord : Entity<GameRecord> {
     )
 }
 
-object GameRecords : Table<GameRecord>("games") {
+object GameDbos : Table<GameDbo>("games") {
     val id = int("id").primaryKey().bindTo { it.id }
     val title = varchar("title").bindTo { it.title }
-    val minPlayerCount = int("minPlayerCount").bindTo { it.minPlayerCount }
-    val maxPlayerCount = int("maxPlayerCount").bindTo { it.maxPlayerCount }
-    val minPlayTime = int("minPlayTime").bindTo { it.minPlayTime }
-    val maxPlayTime = int("maxPlayTime").bindTo { it.maxPlayTime }
-
+    val minPlayerCount = int("min_player_count").bindTo { it.minPlayerCount }
+    val maxPlayerCount = int("max_player_count").bindTo { it.maxPlayerCount }
+    val minPlayTime = int("min_play_time").bindTo { it.minPlayTime }
+    val maxPlayTime = int("max_play_time").bindTo { it.maxPlayTime }
 }
 
-val Database.gameRecords get() = this.sequenceOf(GameRecords)
+val Database.gameDbos get() = this.sequenceOf(GameDbos)
+val Database.publisherDbos get() = this.sequenceOf(PublisherDbos)
 
-//interface Publisher : Entity<Publisher> {
-//    companion object : Entity.Factory<Publisher>()
-//
-//    val id: Int
-//    val name: String
-//}
-//
-//object Publishers : Table<Publisher>("publishers") {
-//    val id = int("id").primaryKey().bindTo { it.id }
-//    val name = varchar("name").bindTo { it.name }
-//}
-//
-//interface GameToPublisher : Entity<GameToPublisher> {
-////    companion object : Entity.Factory<GameToPublisher>()
-//
-//    val game: Game
-//    val publisher: Publisher
-//}
-//
-//object GamesToPublishers : Table<GameToPublisher>("gamesToPublishers") {
-//    val gameId = int("gameId").references(Games) { it.game }
-//    val publisher = int("publisherId").references(Publishers) { it.publisher }
-//}
+interface PublisherDbo : Entity<PublisherDbo> {
+    companion object : Entity.Factory<PublisherDbo>()
+
+    val id: Int
+    var name: String
+}
+
+object PublisherDbos : Table<PublisherDbo>("publishers") {
+    val id = int("id").primaryKey().bindTo { it.id }
+    val name = varchar("name").bindTo { it.name }
+}
+
+interface GameToPublisher : Entity<GameToPublisher> {
+    companion object : Entity.Factory<GameToPublisher>()
+
+    val game: GameDbo
+    val publisher: PublisherDbo
+}
+
+object GamesToPublishers : Table<GameToPublisher>("game_to_publisher") {
+    val gameId = int("game_id").references(GameDbos) { it.game}
+    val publisherId = int("publisher_id").references(PublisherDbos) { it.publisher }
+}

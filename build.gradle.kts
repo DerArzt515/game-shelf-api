@@ -38,10 +38,10 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("dev.cavalier:game-shelf-model:development")
-    // https://mvnrepository.com/artifact/org.ktorm/ktorm-core
+    implementation("dev.cavalier:game-shelf-model-jvm:development")
     implementation("org.ktorm:ktorm-core:3.5.0")
-    implementation("org.ktorm:ktorm-support-sqlite:3.5.0")
+    implementation("me.liuwj.ktorm:ktorm-support-postgresql:3.1.0")
+    implementation("org.postgresql:postgresql:42.4.0")
     testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

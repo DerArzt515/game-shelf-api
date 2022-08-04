@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "id": null,
-  "title": "Spirit Island",
+  "title": "Foodies",
   "playerCount": {
     "min": 2,
     "max": 4
@@ -16,7 +16,10 @@ Content-Type: application/json
     "min": 15,
     "max": 30
   },
-  "publishers": ["Mike and the boys"],
+  "publishers": ["Mike and the boys", "bob wears pants", "some other guy"],
   "designers": []
 }
+
+### Get by id
+GET http://localhost:8080/game?id=1
 
