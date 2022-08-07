@@ -42,7 +42,10 @@ dependencies {
     implementation("org.ktorm:ktorm-core:3.5.0")
     implementation("me.liuwj.ktorm:ktorm-support-postgresql:3.1.0")
     implementation("org.postgresql:postgresql:42.4.0")
+
     testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("io.mockk:mockk:1.12.5")
+    testImplementation("org.assertj:assertj-core:3.23.1")
 }

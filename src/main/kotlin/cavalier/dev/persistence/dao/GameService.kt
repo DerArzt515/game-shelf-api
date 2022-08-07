@@ -41,8 +41,8 @@ class GameService(private val database: Database) : DataService<GameCreationRequ
             maxPlayTime = record.playTime.max
         }
         database.gameDbos.add(toInsert)
-        val publishers = upsertPublishers()
-        createRelationship(toInsert.id, record.publishers)
+//        val publishers = upsertPublishers()
+//        createRelationship(toInsert.id, record.publishers)
         return toInsert.convert()
     }
 
@@ -55,22 +55,22 @@ class GameService(private val database: Database) : DataService<GameCreationRequ
         }
     }
 
-    fun link(gameId: Int, publisherId: Int): Int {
-
-    }
+//    fun link(gameId: Int, publisherId: Int): Int {
+//
+//    }
 
     private fun upsertPublishers(publishers: List<String>): List<Int> {
         return publishers.map { publisher ->
             val id: Int? = database.from(PublisherDbos)
-                    .select(PublisherDbos.id)
-                    .where(PublisherDbos.name eq publisher)
-                    .map { row -> row[PublisherDbos.id] }
-                    .firstOrNull()
+                .select(PublisherDbos.id)
+                .where(PublisherDbos.name eq publisher)
+                .map { row -> row[PublisherDbos.id] }
+                .firstOrNull()
             id ?: run {
                 database.insertAndGenerateKey(PublisherDbos) {
                     set(it.name, publisher)
                 } as Int
-                database.insert
+//                database.insert
             }
         }
     }
